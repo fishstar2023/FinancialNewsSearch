@@ -1,0 +1,88 @@
+/* 全局字體與顏色 */
+body, input, button, select, textarea {
+  font-family: "思源宋體", "Noto Serif TC", serif;
+  color: #4B4B4B;
+  background-color: #E6ECE6;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #3A5F3D;
+}
+
+button {
+  font-family: inherit;
+  background-color: #5A7D55;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background-color: #8aaf7c77;
+}
+
+nav {
+  background-color: #3A5F3D;
+  color: white;
+}
+
+nav a {
+  color: white;
+  margin-right: 16px;
+  font-size: 15px;
+}
+
+footer {
+  color: #7F9773;
+  background-color: #F7F8F5;
+  border-top: 1px solid #B4C1B0;
+  padding: 12px 0;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* 全局莫蘭迪綠色系按鈕 */
+.btn-morandi-green {
+  background-color: #5A7D55; /* 主綠色 */
+  color: #f4f4f4;           /* 文字顏色 */
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+}
+
+.btn-morandi-green:hover {
+  background-color: #4A673E; /* 滑鼠懸停色 */
+}
+
+.btn-morandi-green:disabled {
+  background-color: #94a3b8; /* 禁用狀態色 */
+  cursor: not-allowed;
+}
+
+/* 主題選擇按鈕 - 可選中狀態 */
+.topic-btn {
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #cbd5e1;
+  background: white;
+  color: #334155;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.topic-btn.selected {
+  border: 2px solid #5A7D55;
+  background: #dbeafe;
+  color: #467f43;
+}
+

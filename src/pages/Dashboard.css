@@ -1,0 +1,249 @@
+/* 全局字體 */
+.dashboard-container {
+  max-width: 900px;
+  margin: 40px auto;
+  font-family: "思源宋體", "Noto Serif TC", serif;
+}
+
+/* 標題與描述 */
+.dashboard-container h1 {
+  color: #0F2C18;
+  margin-bottom: 12px;
+}
+
+.dashboard-container p {
+  color: #0e3510;
+  margin-bottom: 24px;
+}
+
+/* Email 輸入 */
+.email-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #19583d;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* 主題分類按鈕 */
+.topics-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.topic-button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid #cbd5e1;
+  background: white;
+  color: #1e7c53ff;
+}
+
+.topic-button.selected {
+  border: 2px solid #0b7612ff;
+  background: #dbeafe;
+  color: #287d46ff;
+}
+
+/* 關鍵字輸入 + 按鈕 */
+.keywords-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.keywords-container input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #19583d;
+  font-size: 14px;
+}
+
+.action-button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.add-button {
+  background-color: #478058;
+}
+
+.generate-button {
+  background-color: #478058;
+}
+
+.generate-button.loading {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* 已選關鍵字 */
+.keyword-chip {
+  display: inline-block;
+  padding: 6px 12px;
+  background: #e0f2fe;
+  border-radius: 20px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+/* 新增新聞網站選擇 */
+.websites-container {
+  margin-bottom: 20px;
+}
+
+.website-button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid #cbd5e1;
+  background: white;
+  color: #1e7c53ff;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+.website-button.selected {
+  border: 2px solid #0b7612ff;
+  background: #dbeafe;
+  color: #287d46ff;
+}
+
+/* 日期區間 */
+.date-range-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.date-range-container label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: #334155;
+}
+
+/* 輸出格式 */
+.output-format-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.output-format-container label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #334155;
+}
+
+/* 訊息與 Loading */
+.message {
+  color: #16a34a;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.loading-text {
+  color: #17341E;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Loading 圓圈動畫 */
+.loading-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid #cbd5e1; /* 背景圈顏色 */
+  border-top: 3px solid #478058; /* 主色旋轉部分 */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 報告列表 */
+.report-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  transition: all 0.3s;
+}
+
+/* 尚無報告提示 */
+.no-report {
+  color: #94a3b8;
+  text-align: center;
+}
+
+/* 成功訊息動畫 */
+.success-message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #16a34a; /* 綠色 */
+  font-weight: bold;
+  margin-bottom: 20px;
+  opacity: 0;
+  transform: scale(0.8);
+  animation: fadeInScale 0.5s forwards;
+  transition: opacity 0.5s ease;
+}
+
+.success-message.hide {
+  opacity: 0;
+}
+
+.success-message .checkmark {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #16a34a;
+  position: relative;
+}
+
+.success-message .checkmark::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 0px;
+  width: 6px;
+  height: 12px;
+  border: solid #16a34a;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+@keyframes fadeInScale {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}

@@ -1,0 +1,75 @@
+.settings-container {
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+.settings-title {
+  color: #0F2C18;
+  margin-bottom: 20px;
+}
+
+.settings-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.card-title {
+  margin-bottom: 12px;
+  color: #0F2C18;
+}
+
+.field {
+  margin-bottom: 12px;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.field input[type="color"] {
+  width: 60px;
+  height: 30px;
+  border: none;
+  cursor: pointer;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.checkbox-field input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.checkbox-label {
+  text-transform: capitalize;
+}
+
+.save-container {
+  margin-top: 24px;
+}
+
+.save-container button {
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.message {
+  color: #16a34a;
+  font-weight: bold;
+  margin-top: 16px;
+}

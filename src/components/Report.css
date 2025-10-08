@@ -1,0 +1,32 @@
+.report-card {
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.report-content {
+  margin-top: 12px;
+}
+
+/* 折疊動畫 */
+.collapse-enter {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+.collapse-enter-active {
+  max-height: 1000px; /* 足夠大以容納內容 */
+  opacity: 1;
+  transition: max-height 0.2s ease, opacity 0.2s ease;
+}
+.collapse-exit {
+  max-height: 1000px;
+  opacity: 1;
+}
+.collapse-exit-active {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.2s ease, opacity 0.2s ease;
+}
