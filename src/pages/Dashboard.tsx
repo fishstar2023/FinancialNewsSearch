@@ -17,7 +17,6 @@ const AVAILABLE_TOPICS = [
   "區域發展", "環境永續", "基礎建設"
 ];
 
-// 範例新聞網站（可擴充到 20+）
 const NEWS_WEBSITES = [
   { name: "VNExpress", country: "越南", url: "https://vnexpress.net" },
   { name: "ThaiPBS", country: "泰國", url: "https://www.thaipbs.or.th" },
@@ -38,8 +37,8 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [userEmail, setUserEmail] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const [messageType, setMessageType] = useState<"error" | "success" | "">("");
 
-  // 關鍵字操作
   const handleAddKeyword = () => {
     if (inputValue.trim() && !keywords.includes(inputValue.trim())) {
       setKeywords([...keywords, inputValue.trim()]);
@@ -50,37 +49,50 @@ const Dashboard: React.FC = () => {
     setKeywords(keywords.filter((k) => k !== keyword));
   };
 
-  // 主題切換
   const handleToggleTopic = (topic: string) => {
     setSelectedTopics(prev =>
       prev.includes(topic) ? prev.filter(t => t !== topic) : [...prev, topic]
     );
   };
 
-  // 網站切換
   const handleToggleWebsite = (url: string) => {
     setSelectedWebsites(prev =>
       prev.includes(url) ? prev.filter(u => u !== url) : [...prev, url]
     );
   };
 
-  // 搜尋 / 生成報告
+  // 日期防呆
+  const validateDates = (): boolean => {
+    if (!startDate || !endDate) return true;
+    if (new Date(endDate) < new Date(startDate)) {
+      setMessage("⚠️ 結束日期不能早於開始日期！");
+      setMessageType("error");
+      return false;
+    }
+    setMessage("");
+    setMessageType("");
+    return true;
+  };
+
   const handleSearch = async () => {
-    if (keywords.length === 0 && selectedTopics.length === 0) return;
-    if (!userEmail) {
-      setMessage("請先輸入你的 Email 📨");
+    if (keywords.length === 0 && selectedTopics.length === 0) {
+      setMessage("請至少選擇一個主題或輸入關鍵字 🔍");
+      setMessageType("error");
       return;
     }
+    if (!userEmail) {
+      setMessage("請先輸入你的 Email 📨");
+      setMessageType("error");
+      return;
+    }
+    if (!validateDates()) return;
 
     setLoading(true);
     setReports([]);
     setMessage("");
+    setMessageType("");
 
-    // ===============================
-    // ⚠️ 前端模擬生成報告
-    // 替換成後端 API 可傳送：
-    // keywords, selectedTopics, selectedWebsites, startDate, endDate, outputFormat, email
-    // ===============================
+    // 模擬生成報告
     setTimeout(() => {
       const fakeReport: AIReport = {
         title: "範例報告：東南亞金融趨勢",
@@ -95,13 +107,16 @@ const Dashboard: React.FC = () => {
       setReports([fakeReport]);
       setLoading(false);
       setMessage(`報告已寄送到 ${userEmail} 📧`);
+      setMessageType("success");
     }, 2000);
   };
 
-  // 自動淡出訊息
   useEffect(() => {
     if (message) {
-      const timer = setTimeout(() => setMessage(""), 4000);
+      const timer = setTimeout(() => {
+        setMessage("");
+        setMessageType("");
+      }, 4000);
       return () => clearTimeout(timer);
     }
   }, [message]);
@@ -110,15 +125,6 @@ const Dashboard: React.FC = () => {
     <div className="dashboard-container">
       <h1>新聞摘要產生器</h1>
       <p>選擇主題、關鍵字、新聞網站及日期區間，生成 AI 摘要報告。</p>
-
-      {/* Email */}
-      <input
-        type="email"
-        placeholder="請輸入你的 Email"
-        value={userEmail}
-        onChange={(e) => setUserEmail(e.target.value)}
-        className="email-input"
-      />
 
       {/* 主題 */}
       <div className="topics-container">
@@ -133,7 +139,7 @@ const Dashboard: React.FC = () => {
         ))}
       </div>
 
-      {/* 關鍵字 + 按鈕 */}
+      {/* 關鍵字 */}
       <div className="keywords-container">
         <input
           type="text"
@@ -142,12 +148,8 @@ const Dashboard: React.FC = () => {
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAddKeyword()}
         />
-        <button onClick={handleAddKeyword} className="action-button add-button">
-          新增
-        </button>
+        <button onClick={handleAddKeyword} className="action-button add-button">新增</button>
       </div>
-
-      {/* 已選關鍵字 */}
       <div>
         {keywords.map(k => (
           <span key={k} className="keyword-chip" onClick={() => handleRemoveKeyword(k)}>
@@ -156,7 +158,7 @@ const Dashboard: React.FC = () => {
         ))}
       </div>
 
-      {/* 新聞網站選擇 */}
+      {/* 新聞網站 */}
       <div className="websites-container">
         <h3>選擇新聞網站</h3>
         {NEWS_WEBSITES.map(site => (
@@ -170,17 +172,37 @@ const Dashboard: React.FC = () => {
         ))}
       </div>
 
-      {/* 日期區間 */}
+      {/* 日期 */}
       <div className="date-range-container">
-        <label>
-          開始日期:
-          <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} />
-        </label>
-        <label>
-          結束日期:
-          <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
-        </label>
-      </div>
+        <div className="date-input-wrapper">
+            <label htmlFor="start-date">開始日期</label>
+            <input
+              id="start-date"
+              type="date"
+              value={startDate}
+              onChange={e => setStartDate(e.target.value)}
+         />
+        </div>
+        <div className="date-input-wrapper">
+            <label htmlFor="end-date">結束日期</label>
+            <input
+              id="end-date"
+              type="date"
+              value={endDate}
+              onChange={e => setEndDate(e.target.value)}
+            />
+        </div>
+    </div>
+
+      {/* Email */}
+      <label htmlFor="user-email" style={{ display: "block", marginBottom: "8px" ,fontWeight: "bold"}}>請輸入您的Email:</label>
+      <input
+        type="email"
+        placeholder="請輸入你的 Email"
+        value={userEmail}
+        onChange={(e) => setUserEmail(e.target.value)}
+        className="email-input"
+      />
 
       {/* 輸出格式 */}
       <div className="output-format-container">
@@ -206,7 +228,7 @@ const Dashboard: React.FC = () => {
         </label>
       </div>
 
-      {/* 生成報告按鈕 */}
+      {/* 生成按鈕 */}
       <button
         onClick={handleSearch}
         disabled={loading}
@@ -215,10 +237,20 @@ const Dashboard: React.FC = () => {
         {loading ? "生成中..." : "生成報告"}
       </button>
 
-      {/* 訊息 */}
-      {message && !loading && <div className="success-message"><span>{message}</span></div>}
+      {/* 錯誤訊息 */}
+      {message && messageType === "error" && !loading && (
+        <div className="error-message">{message}</div>
+      )}
 
-      {/* Loading */}
+      {/* 成功訊息 */}
+      {message && messageType === "success" && !loading && (
+        <div className="success-message">
+          <div className="checkmark"></div>
+          <span>{message}</span>
+        </div>
+      )}
+
+      {/* Loading 動畫 */}
       {loading && (
         <div className="loading-wrapper">
           <div className="spinner"></div>
@@ -226,7 +258,7 @@ const Dashboard: React.FC = () => {
         </div>
       )}
 
-      {/* 報告列表 */}
+      {/* 報告 */}
       {reports.map((report, i) => (
         <div key={i} className="report-card">
           <Report report={report} />

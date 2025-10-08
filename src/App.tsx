@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
-import ReportsPage from "./pages/Reports";
+/* import ReportsPage from "./pages/Reports"; */ 
 import SettingsPage from "./pages/Settings";
 
 const App: React.FC = () => {
@@ -33,9 +33,9 @@ const App: React.FC = () => {
             <Link to="/" style={navLinkStyle}>
               首頁
             </Link>
-            <Link to="/reports" style={navLinkStyle}>
+            {/* <Link to="/reports" style={navLinkStyle}>
               AI 報告紀錄
-            </Link>
+            </Link> */}
             <Link to="/settings" style={navLinkStyle}>
               設定
             </Link>
@@ -46,7 +46,7 @@ const App: React.FC = () => {
         <main style={{ padding: "20px" }}>
           <Routes>
             <Route path="/" element={<Dashboard />} />
-            <Route path="/reports" element={<ReportsPage />} />
+            {/* <Route path="/reports" element={<ReportsPage />} /> */}
             <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         </main>
