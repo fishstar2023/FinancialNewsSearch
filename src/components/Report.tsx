@@ -3,10 +3,12 @@ import React, { useState } from "react";
 export type AIReport = {
   title: string;
   summary: string;
-  trends: string[];
-  analysis: string[];
-  suggestions: string[];
-  countries: string[];
+  bulletPoints?: string[]; // ✅ 新增：摘要重點欄位
+  trends?: string[];
+  analysis?: string[];
+  suggestions?: string[];
+  countries?: string[];
+  source?: string; // ✅ 來源網站
   generatedAt: string;
 };
 
@@ -31,9 +33,16 @@ const Report: React.FC<ReportProps> = ({ report }) => {
     >
       <h2
         onClick={() => setExpanded(!expanded)}
-        style={{ cursor: "pointer", color: "#3A5F3D" }}
+        style={{
+          cursor: "pointer",
+          color: "#3A5F3D",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
       >
-        {report.title} {expanded ? "▲" : "▼"}
+        <span>{report.title}</span>
+        <span>{expanded ? "▲" : "▼"}</span>
       </h2>
 
       {expanded && (
@@ -42,17 +51,49 @@ const Report: React.FC<ReportProps> = ({ report }) => {
             <h3 style={{ color: "#7F9773" }}>摘要</h3>
             <p>{report.summary}</p>
           </div>
-          <div>
-            <h3 style={{ color: "#7F9773" }}>趨勢</h3>
-            <ul>{report.trends.map((t, i) => <li key={i}>{t}</li>)}</ul>
-          </div>
-          <div>
-            <h3 style={{ color: "#7F9773" }}>分析</h3>
-            <ul>{report.analysis.map((a, i) => <li key={i}>{a}</li>)}</ul>
-          </div>
-          <div>
-            <h3 style={{ color: "#7F9773" }}>建議</h3>
-            <ul>{report.suggestions.map((s, i) => <li key={i}>{s}</li>)}</ul>
+
+          {report.bulletPoints && report.bulletPoints.length > 0 && (
+            <div>
+              <h3 style={{ color: "#7F9773" }}>重點</h3>
+              <ul>
+                {report.bulletPoints.map((bp, i) => (
+                  <li key={i}>{bp}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {report.trends && report.trends.length > 0 && (
+            <div>
+              <h3 style={{ color: "#7F9773" }}>趨勢</h3>
+              <ul>{report.trends.map((t, i) => <li key={i}>{t}</li>)}</ul>
+            </div>
+          )}
+
+          {report.analysis && report.analysis.length > 0 && (
+            <div>
+              <h3 style={{ color: "#7F9773" }}>分析</h3>
+              <ul>{report.analysis.map((a, i) => <li key={i}>{a}</li>)}</ul>
+            </div>
+          )}
+
+          {report.suggestions && report.suggestions.length > 0 && (
+            <div>
+              <h3 style={{ color: "#7F9773" }}>建議</h3>
+              <ul>{report.suggestions.map((s, i) => <li key={i}>{s}</li>)}</ul>
+            </div>
+          )}
+
+          {report.countries && report.countries.length > 0 && (
+            <div>
+              <h3 style={{ color: "#7F9773" }}>涉及國家</h3>
+              <p>{report.countries.join(", ")}</p>
+            </div>
+          )}
+
+          <div style={{ fontSize: "0.85em", color: "#888", marginTop: "12px" }}>
+            {report.source && <p>來源：{report.source}</p>}
+            <p>產出時間：{report.generatedAt}</p>
           </div>
         </>
       )}

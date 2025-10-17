@@ -1,0 +1,186 @@
+.dashboard-container {
+  max-width: 780px;
+  margin: 60px auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px 48px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  font-family: "Noto Serif TC", serif;
+}
+
+.dashboard-container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.dashboard-container p {
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+}
+
+.section {
+  margin-bottom: 28px;
+}
+
+.section h3 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.prompt-input {
+  width: 100%;
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  transition: all 0.2s ease;
+  font-family: "Noto Serif TC", serif;
+}
+
+.prompt-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.email-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.email-label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.email-input {
+  width: 100%;
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  transition: border 0.2s ease;
+  font-family: "Noto Serif TC", serif;
+}
+
+.email-input:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+
+.generate-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.action-button {
+  background-color: #3b82f6;
+  color: #fff;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Noto Serif TC", serif;
+}
+
+.action-button:hover {
+  background-color: #2563eb;
+}
+
+.action-button:disabled {
+  background-color: #a5b4fc;
+  cursor: not-allowed;
+}
+
+.loading {
+  background-color: #60a5fa !important;
+  cursor: wait;
+}
+
+.progress-section {
+  margin-top: 20px;
+  background: #f3f4f6;
+  padding: 16px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #444;
+  animation: fadeIn 0.4s ease;
+  font-family: "Noto Serif TC", serif;
+}
+
+.progress-section p {
+  margin: 4px 0;
+}
+
+.report-result {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.report-result a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.report-result a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  margin-top: 16px;
+  animation: fadeIn 0.3s ease;
+  font-family: "Noto Serif TC", serif;
+}
+
+.success-message {
+  background-color: #dcfce7;
+  color: #166534;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  margin-top: 16px;
+  animation: fadeIn 0.3s ease;
+  font-family: "Noto Serif TC", serif;
+}
+
+.no-report {
+  color: #777;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 24px;
+  font-family: "Noto Serif TC", serif;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.action-button {
+  background: linear-gradient(90deg, #10b981, #059669);
+  transition: all 0.3s ease;
+}
+
+.action-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
