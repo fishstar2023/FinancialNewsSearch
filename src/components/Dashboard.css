@@ -1,77 +1,84 @@
+/* =======================
+   Dashboard Container
+======================= */
 .dashboard-container {
   max-width: 780px;
   margin: 60px auto;
-  background: #fff;
-  border-radius: 16px;
-  padding: 40px 48px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   font-family: "Noto Serif TC", serif;
+  padding: 0 16px;
 }
 
-.dashboard-container h1 {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
-  color: #222;
+/* -----------------------
+   頁面標題
+----------------------- */
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 32px;
 }
 
-.dashboard-container p {
+.dashboard-header h1 {
+  font-size: 2rem;
+  color: #16a34a; /* 清新綠 */
+  margin-bottom: 8px;
+}
+
+.dashboard-header p {
+  font-size: 1rem;
   color: #555;
-  font-size: 0.95rem;
+}
+
+/* -----------------------
+   卡片樣式
+----------------------- */
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px 36px;
   margin-bottom: 24px;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.06);
+  animation: fadeIn 0.4s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.section {
-  margin-bottom: 28px;
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* -----------------------
+   區塊標題
+----------------------- */
 .section h3 {
   font-size: 1.1rem;
   color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
-.prompt-input {
+/* -----------------------
+   輸入框
+----------------------- */
+.prompt-input,
+.email-input {
   width: 100%;
-  border: 1.5px solid #ccc;
+  border: 1.5px solid #d1d5db;
   border-radius: 10px;
   padding: 12px 14px;
   font-size: 0.95rem;
   line-height: 1.6;
-  transition: all 0.2s ease;
-  font-family: "Noto Serif TC", serif;
+  transition: all 0.25s ease;
+  background-color: #f9fdf9;
 }
 
-.prompt-input:focus {
-  border-color: #3b82f6;
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
-}
-
-.email-section {
-  display: flex;
-  flex-direction: column;
-}
-
-.email-label {
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-
-.email-input {
-  width: 100%;
-  border: 1.5px solid #ccc;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 0.95rem;
-  transition: border 0.2s ease;
-  font-family: "Noto Serif TC", serif;
-}
-
+.prompt-input:focus,
 .email-input:focus {
-  border-color: #3b82f6;
+  border-color: #16a34a;
+  box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
   outline: none;
 }
 
+/* -----------------------
+   按鈕
+----------------------- */
 .generate-section {
   display: flex;
   justify-content: center;
@@ -79,25 +86,30 @@
 }
 
 .action-button {
-  background-color: #3b82f6;
+  background-color: #16a34a;
   color: #fff;
   border: none;
-  padding: 12px 32px;
-  border-radius: 8px;
+  padding: 14px 36px;
+  border-radius: 12px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: "Noto Serif TC", serif;
+  transition: all 0.25s ease;
 }
 
 .action-button:hover {
-  background-color: #2563eb;
+  background-color: #15803d;
+  transform: translateY(-2px);
+}
+
+.action-button:active {
+  transform: translateY(0);
 }
 
 .action-button:disabled {
-  background-color: #a5b4fc;
+  background-color: #a7f3d0;
   cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .loading {
@@ -105,28 +117,32 @@
   cursor: wait;
 }
 
+/* -----------------------
+   任務進度
+----------------------- */
 .progress-section {
   margin-top: 20px;
-  background: #f3f4f6;
+  background: #f0fdf4;
   padding: 16px;
   border-radius: 10px;
   font-size: 0.9rem;
   color: #444;
-  animation: fadeIn 0.4s ease;
-  font-family: "Noto Serif TC", serif;
 }
 
 .progress-section p {
   margin: 4px 0;
 }
 
+/* -----------------------
+   報告下載
+----------------------- */
 .report-result {
   margin-top: 24px;
   text-align: center;
 }
 
 .report-result a {
-  color: #2563eb;
+  color: #16a34a;
   font-weight: 600;
   text-decoration: none;
 }
@@ -135,6 +151,9 @@
   text-decoration: underline;
 }
 
+/* -----------------------
+   錯誤/成功訊息
+----------------------- */
 .error-message {
   background-color: #fee2e2;
   color: #b91c1c;
@@ -142,8 +161,6 @@
   border-radius: 10px;
   font-size: 0.95rem;
   margin-top: 16px;
-  animation: fadeIn 0.3s ease;
-  font-family: "Noto Serif TC", serif;
 }
 
 .success-message {
@@ -153,18 +170,19 @@
   border-radius: 10px;
   font-size: 0.95rem;
   margin-top: 16px;
-  animation: fadeIn 0.3s ease;
-  font-family: "Noto Serif TC", serif;
 }
 
-.no-report {
-  color: #777;
-  font-size: 0.9rem;
-  text-align: center;
-  margin-top: 24px;
-  font-family: "Noto Serif TC", serif;
+/* -----------------------
+   信箱錯誤
+----------------------- */
+.input-error {
+  border-color: #b91c1c !important;
+  box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2);
 }
 
+/* -----------------------
+   動畫
+----------------------- */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -174,13 +192,4 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-.action-button {
-  background: linear-gradient(90deg, #10b981, #059669);
-  transition: all 0.3s ease;
-}
-
-.action-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
