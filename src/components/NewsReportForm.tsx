@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Dashboard.css";
 
 type TaskStatus = "idle" | "creating" | "running" | "completed" | "failed";
@@ -30,15 +30,13 @@ const NewsReportForm: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
+  const progressEndRef = useRef<HTMLDivElement>(null);
+
   const BASE_URL = "http://localhost:8000/api/tasks";
 
-  // 驗證 email 格式
-  const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email.toLowerCase());
-  };
+  const validateEmail = (email: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.toLowerCase());
 
-  // 建立任務
   const handleGenerateReport = async () => {
     setErrorMessage("");
     setSuccessMessage("");
@@ -47,18 +45,18 @@ const NewsReportForm: React.FC = () => {
       setErrorMessage("請輸入搜尋需求");
       return;
     }
-
     if (!userEmail.trim()) {
       setErrorMessage("請輸入電子郵件");
       return;
     }
-
     if (!validateEmail(userEmail)) {
       setErrorMessage("請輸入正確的電子郵件格式");
       return;
     }
 
     setStatus("creating");
+    setProgress(null);
+    setTaskId(null);
 
     try {
       const response = await fetch(`${BASE_URL}/news-report`, {
@@ -82,16 +80,13 @@ const NewsReportForm: React.FC = () => {
       setTaskId(data.task_id);
       setStatus("running");
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        setErrorMessage(error.message || "建立任務時發生錯誤");
-      } else {
-        setErrorMessage("建立任務時發生錯誤");
-      }
-      setStatus("failed");
+      setErrorMessage(
+        error instanceof Error ? error.message : "建立任務時發生錯誤"
+      );
+      setStatus("idle");
     }
   };
 
-  // 查詢任務進度
   useEffect(() => {
     if (!taskId) return;
 
@@ -102,31 +97,45 @@ const NewsReportForm: React.FC = () => {
         const data: TaskProgress = await res.json();
         setProgress(data);
 
-        if (data.status === "completed") {
+        if (data.status === "completed" || data.status === "succeeded") {
           clearInterval(interval);
-          setStatus("completed");
+          setStatus("idle");
           setSuccessMessage(
-            `📄 報告已寄送至 ${data.artifacts?.email_sent_to || userEmail}`
+            `🎉 所有步驟完成！報告已發送至: ${
+              data.artifacts?.email_sent_to || userEmail
+            }`
           );
+          setTaskId(null);
         } else if (data.status === "failed") {
           clearInterval(interval);
-          setStatus("failed");
+          setStatus("idle");
           setErrorMessage(data.error || "任務失敗");
+          setTaskId(null);
         }
       } catch {
-        setErrorMessage("查詢任務狀態時發生錯誤");
         clearInterval(interval);
-        setStatus("failed");
+        setStatus("idle");
+        setErrorMessage("查詢任務狀態時發生錯誤");
+        setTaskId(null);
       }
     }, 2000);
 
     return () => clearInterval(interval);
   }, [taskId, userEmail]);
 
+  // ✅ 自動滾動到最新進度
+  useEffect(() => {
+    if (progressEndRef.current) {
+      progressEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [progress]);
+
   return (
     <div className="dashboard-container">
-      <h1>AI 新聞報告產生器</h1>
-      <p>輸入搜尋需求與你的信箱，AI 將生成報告並寄送給你。</p>
+      <div className="dashboard-header">
+        <h1>AI 新聞報告產生器</h1>
+        <p>輸入搜尋需求與你的信箱，AI 將生成報告並寄送給你。</p>
+      </div>
 
       <div className="section">
         <h3>搜尋需求</h3>
@@ -135,13 +144,12 @@ const NewsReportForm: React.FC = () => {
           onChange={(e) => setUserPrompt(e.target.value)}
           placeholder={`請詳述你的需求，例如：
 請幫我檢查近兩個月的金融科技新聞，大約五篇`}
-          rows={4}
           className="prompt-input"
         />
       </div>
 
-      <div className="section email-section">
-        <label className="email-label">請填寫你的信箱</label>
+      <div className="section">
+        <h3>收件信箱</h3>
         <input
           type="email"
           placeholder="your.email@example.com"
@@ -160,9 +168,7 @@ const NewsReportForm: React.FC = () => {
         <button
           onClick={handleGenerateReport}
           disabled={status === "creating" || status === "running"}
-          className={`action-button ${
-            status === "running" ? "loading" : ""
-          }`}
+          className={`action-button ${status === "running" ? "loading" : ""}`}
         >
           {status === "running"
             ? "生成中..."
@@ -172,20 +178,24 @@ const NewsReportForm: React.FC = () => {
         </button>
       </div>
 
-      {/* 顯示進度 */}
-      {progress && status === "running" && (
+      {progress && (
         <div className="progress-section">
           <p>⏳ 任務狀態：{progress.status}</p>
           <p>📈 進度：{progress.progress}%</p>
-          <p>🔍 步驟：{progress.current_step}</p>
-          <p>{progress.step_message}</p>
+          {progress.current_step && <p>🔍 步驟：{progress.current_step}</p>}
+          {progress.step_message && <p>{progress.step_message}</p>}
+          <div ref={progressEndRef} />
         </div>
       )}
 
       {errorMessage && <div className="error-message">{errorMessage}</div>}
-      {successMessage && <div className="success-message">{successMessage}</div>}
+      {successMessage && (
+        <div className="success-message" style={{ fontWeight: "bold" }}>
+          {successMessage}
+        </div>
+      )}
 
-      {status === "completed" && progress?.artifacts?.report_pdf_path && (
+      {progress?.artifacts?.report_pdf_path && (
         <div className="report-result">
           <a
             href={`http://localhost:8000${progress.artifacts.report_pdf_path}`}

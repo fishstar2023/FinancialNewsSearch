@@ -18,7 +18,7 @@
 
 .dashboard-header h1 {
   font-size: 2rem;
-  color: #16a34a; /* 清新綠 */
+  color: #0b4e24;
   margin-bottom: 8px;
 }
 
@@ -48,10 +48,11 @@
 /* -----------------------
    區塊標題
 ----------------------- */
-.section h3 {
+.section h3,
+.email-label {
   font-size: 1.1rem;
   color: #333;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 /* -----------------------
@@ -67,6 +68,18 @@
   line-height: 1.6;
   transition: all 0.25s ease;
   background-color: #f9fdf9;
+  margin-bottom: 5px;
+  box-sizing: border-box;
+}
+
+/* 搜尋需求固定高度 */
+.prompt-input {
+  height: 120px;
+  resize: none;
+}
+
+.email-input {
+  height: 48px;
 }
 
 .prompt-input:focus,
@@ -82,7 +95,7 @@
 .generate-section {
   display: flex;
   justify-content: center;
-  margin-top: 32px;
+  margin-top: 24px;
 }
 
 .action-button {
@@ -127,10 +140,6 @@
   border-radius: 10px;
   font-size: 0.9rem;
   color: #444;
-}
-
-.progress-section p {
-  margin: 4px 0;
 }
 
 /* -----------------------
