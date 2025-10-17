@@ -102,11 +102,6 @@ git checkout -b feat/your-feature
 
 ---
 
-## License
-
-TODO: 填入授權（例如 MIT、Apache-2.0）。
-
----
 
 ## 致謝與資源
 
