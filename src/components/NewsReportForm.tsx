@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 
 type TaskStatus = "idle" | "creating" | "running" | "completed" | "failed";
@@ -29,8 +29,6 @@ const NewsReportForm: React.FC = () => {
   const [status, setStatus] = useState<TaskStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
-  const progressEndRef = useRef<HTMLDivElement>(null);
 
   const BASE_URL = "http://localhost:8000/api/tasks";
 
@@ -73,7 +71,10 @@ const NewsReportForm: React.FC = () => {
 
       if (!response.ok) {
         const err = await response.json();
-        throw new Error(err.detail?.[0]?.msg || "任務建立失敗");
+        if (err.detail?.[0]?.msg?.includes("quota")) {
+          throw new Error("API 配額已用完，請稍後再試");
+        }
+        throw new Error("系統忙碌，請稍後再試");
       }
 
       const data: TaskResponse = await response.json();
@@ -97,41 +98,38 @@ const NewsReportForm: React.FC = () => {
         const data: TaskProgress = await res.json();
         setProgress(data);
 
+        // 成功狀態
         if (data.status === "completed" || data.status === "succeeded") {
           clearInterval(interval);
-          setStatus("idle");
+          setStatus("idle"); // 允許重新生成
           setSuccessMessage(
             `🎉 所有步驟完成！報告已發送至: ${
               data.artifacts?.email_sent_to || userEmail
             }`
           );
           setTaskId(null);
+          setProgress(null); // 隱藏進度條
         } else if (data.status === "failed") {
           clearInterval(interval);
-          setStatus("idle");
-          setErrorMessage(data.error || "任務失敗");
+          setStatus("idle"); // 允許重新生成
+          setErrorMessage("系統忙碌，請稍後再試");
           setTaskId(null);
+          setProgress(null);
         }
       } catch {
         clearInterval(interval);
-        setStatus("idle");
-        setErrorMessage("查詢任務狀態時發生錯誤");
+        setStatus("idle"); // 允許重新生成
+        setErrorMessage("系統忙碌，請稍後再試");
         setTaskId(null);
+        setProgress(null);
       }
     }, 2000);
 
     return () => clearInterval(interval);
   }, [taskId, userEmail]);
 
-  // ✅ 自動滾動到最新進度
-  useEffect(() => {
-    if (progressEndRef.current) {
-      progressEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [progress]);
-
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container" style={{ fontFamily: "'Source Han Serif SC', '思源宋體', serif" }}>
       <div className="dashboard-header">
         <h1>AI 新聞報告產生器</h1>
         <p>輸入搜尋需求與你的信箱，AI 將生成報告並寄送給你。</p>
@@ -178,22 +176,24 @@ const NewsReportForm: React.FC = () => {
         </button>
       </div>
 
-      {progress && (
+      {/* ✅ 進度條 */}
+      {progress && status === "running" && (
         <div className="progress-section">
           <p>⏳ 任務狀態：{progress.status}</p>
+          <div className="progress-bar-wrapper">
+            <div
+              className="progress-bar"
+              style={{ width: `${progress.progress}%` }}
+            ></div>
+          </div>
           <p>📈 進度：{progress.progress}%</p>
           {progress.current_step && <p>🔍 步驟：{progress.current_step}</p>}
           {progress.step_message && <p>{progress.step_message}</p>}
-          <div ref={progressEndRef} />
         </div>
       )}
 
       {errorMessage && <div className="error-message">{errorMessage}</div>}
-      {successMessage && (
-        <div className="success-message" style={{ fontWeight: "bold" }}>
-          {successMessage}
-        </div>
-      )}
+      {successMessage && <div className="success-message">{successMessage}</div>}
 
       {progress?.artifacts?.report_pdf_path && (
         <div className="report-result">
