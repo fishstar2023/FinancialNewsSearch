@@ -27,18 +27,18 @@ const App: React.FC = () => {
           }}
         >
           <div style={{ fontWeight: "bold", fontSize: "18px" }}>
-            東南亞金融新聞摘要系統
+            東南亞金融新聞搜尋系統
           </div>
           <div>
             <Link to="/" style={navLinkStyle}>
               首頁
             </Link>
-            { <Link to="/reports" style={navLinkStyle}>
+            {/*<Link to="/reports" style={navLinkStyle}>
               AI 報告紀錄
-            </Link> }
-            <Link to="/settings" style={navLinkStyle}>
+            </Link> */}
+            {/*<Link to="/settings" style={navLinkStyle}>
               設定
-            </Link>
+            </Link> */}
           </div>
         </nav>
 

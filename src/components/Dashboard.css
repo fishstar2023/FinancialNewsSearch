@@ -1,8 +1,10 @@
 /* -------------------- Dashboard Container -------------------- */
 .dashboard-container {
   max-width: 800px;
+  width: 100%;
   margin: 0 auto;
   padding: 20px;
+  box-sizing: border-box;
   font-family: "Source Han Serif SC", "思源宋體", "Noto Serif SC", serif;
 }
 
@@ -19,12 +21,16 @@
 /* -------------------- Section 樣式 -------------------- */
 .section {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .prompt-input,
 .email-input {
   width: 100%;
-  padding: 10px;
+  padding: 8px;
+  max-width: 700px;
+  box-sizing: border-box;
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -55,6 +61,8 @@
 /* -------------------- 生成按鈕 -------------------- */
 .generate-section {
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .action-button {
@@ -106,6 +114,7 @@
 .progress-bar-wrapper {
   width: 100%;
   height: 14px;
+  max-width: 700px;
   background-color: #eee;
   border-radius: 7px;
   overflow: hidden;
